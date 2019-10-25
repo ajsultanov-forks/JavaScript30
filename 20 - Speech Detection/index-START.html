@@ -12,6 +12,29 @@
 <script>
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  const sprg = new SpeechRecognition();
+  sprg.interimResults = true;
+
+  let p = document.createElement('p');
+  const words = document.querySelector('.words');
+  words.appendChild(p);
+
+  sprg.onresult = e => {
+    console.log(e.results);
+    const transcript = Array.from(e.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('')
+
+      p.textContent = transcript;
+      if(e.results[0].isFinal) {
+        p = document.createElement('p');
+        words.appendChild(p);
+      }
+  }
+  sprg.onend = () => sprg.start();
+
+  sprg.start();
 
 </script>
 
@@ -40,7 +63,7 @@
       position: relative;
       line-height: 3rem;
     }
-    
+
     p {
       margin: 0 0 3rem;
     }
