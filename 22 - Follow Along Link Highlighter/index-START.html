@@ -27,7 +27,30 @@
 
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+
+    const triggers = document.querySelectorAll('a');
+    const hl = document.createElement('span');
+    hl.classList.add('highlight');
+    document.body.append(hl);
+
+    function highlightLink() {
+      const linkCoords = this.getBoundingClientRect();
+      const coords = {
+        width: linkCoords.width,
+        height: linkCoords.height,
+        top: linkCoords.top + window.scrollY,
+        left: linkCoords.left + window.scrollX,
+
+      }
+
+      hl.style.width = `${coords.width}px`;
+      hl.style.height = `${coords.height}px`;
+      hl.style.transform = `translate(${coords.left}px, ${coords.top}px)`
+
+    }
+
+    triggers.forEach(a => a.addEventListener('mouseover', highlightLink))
+
   </script>
 </body>
 </html>
-
